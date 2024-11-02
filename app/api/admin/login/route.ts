@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import {prisma} from "@/lib/index";
 import { SignJWT } from "jose";
 import { cookies } from "next/headers";
-
+import {SHA256 as SHA} from 'crypto-js'
 const createToken = async(email : string , userId : number) => {
     return await new SignJWT({ email, userId , isAdmin : true })
     .setProtectedHeader({ alg: "HS256" })
@@ -21,9 +21,10 @@ export async function POST(request: Request) {
     const user = await prisma.admin.findUnique({
       where: {
         email,
-        password
+        password : SHA(password).toString()
       }
     });
+    
 
     if(!user){
         return NextResponse.json({ message: "Invalid email or password" }, { status: 401 });

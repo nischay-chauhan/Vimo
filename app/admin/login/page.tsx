@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { LockIcon, MailIcon, PalmtreeIcon } from 'lucide-react'
+import apiClient from '@/lib/api-client'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -14,7 +15,22 @@ export default function LoginPage() {
 
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault()
-    
+   try{
+    const response = await apiClient.post('/admin/login', {
+      email,
+      password
+    });
+ 
+    if(response.data.userInfo){
+       console.log(response.data.userInfo)
+    }else{
+      console.log(response.data.message)
+    }
+     
+   }catch(error){
+    console.log(error)
+
+   }
   }
 
   return (
