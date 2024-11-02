@@ -8,10 +8,14 @@ import { Label } from "@/components/ui/label"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { LockIcon, MailIcon, PalmtreeIcon } from 'lucide-react'
 import apiClient from '@/lib/api-client'
+import { useAppStore } from '@/store/store'
+import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const {setUserInfo} = useAppStore()
+  const router = useRouter();
 
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault()
@@ -22,9 +26,11 @@ export default function LoginPage() {
     });
  
     if(response.data.userInfo){
-       console.log(response.data.userInfo)
+       setUserInfo(response.data.userInfo);
+       router.push('/admin/dashboard');
     }else{
       console.log(response.data.message)
+      
     }
      
    }catch(error){

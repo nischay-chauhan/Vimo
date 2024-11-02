@@ -40,7 +40,7 @@ export async function POST(request: Request) {
 
 
     console.log(email, password);
-    return NextResponse.json({userIndo : {
+    return NextResponse.json({userInfo : {
         email : user.email,
         id : user.id,
     }} );
