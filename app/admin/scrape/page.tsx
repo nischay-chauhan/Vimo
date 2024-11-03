@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Progress } from "@/components/ui/progress"
 import axios from 'axios'
+import apiClient from '@/lib/api-client'
 
 const scrapeHistory = [
   { id: 1, url: 'https://example.com', status: 'Completed', date: '2024-03-01', itemsScraped: 150 },
@@ -29,6 +30,16 @@ const ScrapeDataPage = () => {
     const loc = response.data.geonames
     setCities(loc?.map((city : {name : string}) => city.name) ?? [])
     console.log(cities)
+  }
+
+  const startScrape = async() => {
+    const response = await apiClient.post("/admin/create-job" , {
+      url : `https://packages.yatra.com/holidays/intl/search.htm?destination=${selectedCity}`,
+      jobType : {
+        type : "location",
+      }
+    })
+    console.log(response)
   }
 
   return (
@@ -74,7 +85,7 @@ const ScrapeDataPage = () => {
           )}
         </CardContent>
         <CardFooter>
-          <Button className='w-full ' disabled={!selectedCity} onClick={() => setIsScrapingActive(true)}>
+          <Button className='w-full ' disabled={!selectedCity} onClick={startScrape}>
             <Globe className="mr-2 h-4 w-4" />
             Start Scraping
           </Button>
