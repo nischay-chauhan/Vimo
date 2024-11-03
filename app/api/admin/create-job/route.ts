@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import {prisma} from "@/lib/index";
+import { revalidatePath } from "next/cache";
 export async function POST(request: Request){
     try{
         const {url , jobType} = await request.json();
