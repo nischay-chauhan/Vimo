@@ -1,5 +1,6 @@
 import { Browser } from "puppeteer";
 import { startLocationScraping } from "./scraping/location-scraping";
+import { StartPackageScraping } from "./scraping/package-scrapiing";
 
 
 export const register = async() => {
@@ -55,7 +56,30 @@ export const register = async() => {
                     }
                   }
             }else if (job.data.jobType.type === "package"){
-                
+                const alreadyScrapped = await prisma.trips.findUnique({
+                    where: { id: job.data.packageDetails.id },
+                });
+                if (!alreadyScrapped) {
+                    console.log("Connected! Navigating to " + job.data.url);
+                    await page.goto(job.data.url, { timeout: 120000 });
+                    console.log("Navigated! Scraping page content...");
+                    const pkg = await StartPackageScraping(
+                      page,
+                      job.data.packageDetails
+                    );
+                    await prisma.trips.create({
+                        data: pkg
+                    })
+                    await prisma.jobs.update({
+                        where : {
+                            id : job.data.id
+                        },
+                        data : {
+                            status : "success",
+                            isComplete : true
+                        }
+                    });
+                }
             }
             }catch(error){
 
