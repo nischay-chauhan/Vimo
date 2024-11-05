@@ -55,8 +55,7 @@ export const register = async() => {
                     }
                   }
             }else if (job.data.jobType.type === "package"){
-                console.log(job.data)
-                console.log("inside the package queue ")
+                
             }
             }catch(error){
 
