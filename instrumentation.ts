@@ -79,7 +79,9 @@ export const register = async() => {
                             isComplete : true
                         }
                     });
+                    console.log(pkg)
                 }
+
             }
             }catch(error){
 
