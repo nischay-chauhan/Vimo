@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { Globe, RotateCw, CheckCircle, XCircle, Clock, MapPin } from 'lucide-react'
 
 import { Button } from "@/components/ui/button"
@@ -12,6 +12,7 @@ import { Progress } from "@/components/ui/progress"
 import axios from 'axios'
 import apiClient from '@/lib/api-client'
 import ScrapingQueue from '@/components/admin/scraping/scraping-queue'
+import ScrapingTable, { ScrapingTableSkeleton } from './components/scraping-table'
 
 // const scrapeHistory = [
 //   { id: 1, url: 'https://example.com', status: 'Completed', date: '2024-03-01', itemsScraped: 150 },
@@ -26,7 +27,7 @@ const ScrapeDataPage = () => {
   const [isScrapingActive, setIsScrapingActive] = useState(false)
   const [scrapeProgress, setScrapeProgress] = useState(0)
   const [scrapeHistory, setScrapeHistory] = useState<
-  { id: number; url: string; createdAt: string; status: string }[]
+  { id: number; url:string; createdAt: string; status: string , jobType : any , isComplete : boolean }[]
 >([]);
   const searchCities = async(location : string) => {
     const response = await axios.get(`https://secure.geonames.org/searchJSON?q=${location}&maxRows=5&username=geonames&style=SHORT`);
@@ -43,6 +44,8 @@ const ScrapeDataPage = () => {
       }
     })
     console.log(response)
+
+    getJobsDetail()
   }
 
   const getJobsDetail = async() => {
@@ -120,41 +123,9 @@ const ScrapeDataPage = () => {
           </CardContent>
         </Card>
       )}
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Scrape History</CardTitle>
-          <CardDescription>Recent scraping activities and their results</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {scrapeHistory.map((scrape) => (
-              <div key={scrape.id} className="flex items-center justify-between border-b pb-2">
-                <div>
-                  <p className="font-medium">{scrape.url}</p>
-                  <p className="text-sm text-muted-foreground">{scrape.createdAt}</p>
-                </div>
-                <div className="flex items-center">
-                  {scrape.status === 'Completed' ? (
-                    <CheckCircle className="mr-2 h-4 w-4 text-green-500" />
-                  ) : (
-                    <XCircle className="mr-2 h-4 w-4 text-red-500" />
-                  )}
-                  <span className={scrape.status === 'Completed' ? 'text-green-500' : 'text-red-500'}>
-                    {scrape.status}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-        <CardFooter>
-          <Button variant="outline">
-            <Clock className="mr-2 h-4 w-4" />
-            View Full History
-          </Button>
-        </CardFooter>
-      </Card>
+      <Suspense fallback={<ScrapingTableSkeleton />}>
+      <ScrapingTable scrapingHistory={scrapeHistory} />
+      </Suspense>
     </div>
   )
 }
