@@ -1,9 +1,13 @@
-import React from 'react'
+'use client'
+import { TripType } from '@/types/trips'
+import React, { useState } from 'react'
 
-const TripsPage = () => {
+const Trips = () => {
+    const [trips , setTrips] = useState<TripType[]>([])
+    
   return (
-    <div>TripsPage</div>
+    <div>Trips</div>
   )
 }
 
-export default TripsPage
+export default Trips

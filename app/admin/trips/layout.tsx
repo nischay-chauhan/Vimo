@@ -12,7 +12,8 @@ const AdminLayout = ({children} : {children: React.ReactNode}) => {
         <div className='absolute bg-black rounded-lg top-2 left-2 z-10'>
         <SidebarTrigger />
         </div>
-        <h1 className='text-5xl'>All the info about Scraped Trips </h1>
+        <h1 className='text-5xl'>Trips Page</h1>
+        <p>All the information about trips</p>
         </div>
         {children}
     </section>
