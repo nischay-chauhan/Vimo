@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vimo - Travel Package Management System
 
-## Getting Started
+## Overview
+Vimo is a modern web application built with Next.js 15.0.2 that helps manage and display travel packages. It features an admin dashboard for managing travel packages and a scraping system to collect travel data.
 
-First, run the development server:
+## Tech Stack
+- **Frontend**: Next.js 15.0.2, React 18.3.1
+- **Styling**: Tailwind CSS, Radix UI components
+- **Backend**: Next.js API Routes
+- **Database**: PostgreSQL with Prisma ORM
+- **Job Queue**: BullMQ with Redis
+- **Scraping**: Puppeteer
+- **State Management**: Zustand
+- **Authentication**: JWT (jose)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Features
+- Admin dashboard for package management
+- Automated travel package scraping
+- Detailed trip itinerary management
+- Image handling and storage
+- Job queue system for background tasks
+- Secure admin authentication
+
+## Prerequisites
+- Node.js (Latest LTS version)
+- PostgreSQL database
+- Redis server
+- pnpm/npm/yarn
+
+## Environment Variables (.env.local)
+Create a `.env.local` file in the root directory with the following variables:
+
+```env
+# Database
+DATABASE_URL="postgresql://username:password@localhost:5432/vimo"
+
+# Redis Configuration
+REDIS_URL="redis://localhost:6379"
+
+# Admin Authentication
+JWT_SECRET="your-secure-jwt-secret"
+ADMIN_EMAIL="admin@example.com"
+ADMIN_PASSWORD="secure-admin-password"
+
+# API Configuration
+NEXT_PUBLIC_API_URL="http://localhost:3000"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd vimo
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Install dependencies:
+```bash
+pnpm install
+```
 
-## Learn More
+3. Set up the database:
+```bash
+pnpm prisma generate
+pnpm prisma db push
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Run the development server:
+```bash
+pnpm dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
+- `/app` - Next.js application routes and pages
+- `/components` - Reusable React components
+- `/prisma` - Database schema and migrations
+- `/lib` - Utility functions and configurations
+- `/store` - Zustand state management
+- `/scraping` - Web scraping logic
+- `/public` - Static assets
+- `/types` - TypeScript type definitions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Database Schema
+The application uses three main models:
+- `Admin`: For authentication and admin user management
+- `Jobs`: Tracks scraping and background tasks
+- `Trips`: Stores travel package information
 
-## Deploy on Vercel
+## API Routes
+- `/api/admin/*` - Admin authentication and management
+- `/api/trips/*` - Travel package CRUD operations
+- `/api/jobs/*` - Job queue management
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contributing
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+[License Type] - See LICENSE file for details

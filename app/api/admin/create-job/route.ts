@@ -8,7 +8,7 @@ export async function POST(request: Request){
             data : {url , jobType}
         })
         await JobsQueue.add("new location" , {url , jobType , id:response.id})
-        console.log(response)
+        // console.log(response)
         return NextResponse.json({message : "Job created successfully"}  , { status: 201 } ,);
 
     }catch(error){

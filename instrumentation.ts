@@ -12,6 +12,8 @@ export const register = async() => {
         const puppeteer = await import("puppeteer")
         const {JobsQueue} = await import("./lib/queue")
         const BROWSER_WS = process.env.NEXT_PUBLIC_BROWSER_WS;
+
+        
         
         new Worker("jobsQueue", async (job) => {
             let browser:undefined | Browser = undefined
@@ -79,7 +81,7 @@ export const register = async() => {
                             isComplete : true
                         }
                     });
-                    console.log(pkg)
+                    // console.log(pkg)
                 }
 
             }

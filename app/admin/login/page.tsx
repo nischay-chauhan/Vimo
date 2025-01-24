@@ -29,7 +29,7 @@ export default function LoginPage() {
        setUserInfo(response.data.userInfo);
        router.push('/admin/dashboard');
     }else{
-      console.log(response.data.message)
+      // console.log(response.data.message)
       
     }
      
